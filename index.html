@@ -22,7 +22,6 @@
   <main class="wrapper" style="padding-top:2em">
 
     <section class="container" id="demo-content">
-      <h1 class="title">Scan 1D/2D Code from Video Camera</h1>
       
 
       <div>
@@ -69,7 +68,7 @@
 
             sourceSelect.onchange = () => {
               selectedDeviceId = sourceSelect.value;
-              alert("cambio camara");
+              alert("cambio camara", selectedDeviceId);
             };
 
             const sourceSelectPanel = document.getElementById('sourceSelectPanel')
