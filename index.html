@@ -58,16 +58,18 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
   <script type="text/javascript">
 
-    // window.addEventListener('load', function () {
-const scanner=(sdestino)=>{
-    let selectedDeviceId;
-    alert("INICIO DEL SCANNER");
-    
-      const codeReader = new ZXing.BrowserMultiFormatReader()
-      console.log('ZXing code reader initialized')
+  var selectedDeviceId;
+  const codeReader = new ZXing.BrowserMultiFormatReader()
+  const sourceSelect = document.getElementById('sourceSelect')
+
+  const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+
+    window.addEventListener('load', function () {
+
+  
       codeReader.listVideoInputDevices()
         .then((videoInputDevices) => {
-          const sourceSelect = document.getElementById('sourceSelect')
+          
 
           $(sourceSelect).empty();
           selectedDeviceId = [];
@@ -81,18 +83,38 @@ const scanner=(sdestino)=>{
               sourceOption.value = element.deviceId
               sourceSelect.appendChild(sourceOption)
             })
-
-            sourceSelect.onchange = () => {
-              selectedDeviceId = sourceSelect.value;
-              alert("SE CAMBIO DE CAMARA ", selectedDeviceId);
-              cambiaCamara(sdestino,selectedDeviceId);
-            };
-
-            const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+            
             sourceSelectPanel.style.display = 'block'
           }
 
-        //   document.getElementById('startButton').addEventListener('click', () => {
+
+
+          document.getElementById('resetButton').addEventListener('click', () => {
+            codeReader.reset()
+            document.getElementById('result').textContent = '';
+            console.log('Reset.')
+          })
+
+        })
+        .catch((err) => {
+          console.error("error" +err)
+        })
+
+     });
+
+     sourceSelect.onchange = () => {
+              selectedDeviceId = sourceSelect.value;
+              alert("SE CAMBIO DE CAMARA ", selectedDeviceId);
+            //   cambiaCamara(sdestino,selectedDeviceId);
+            // scanner(sdestino,selectedDeviceId );
+            };
+
+     function scanner(sdestino){
+
+       alert(selectedDeviceId);
+
+       console.log(selectedDeviceId);
+        // document.getElementById('startButton').addEventListener('click', () => {
             codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
 
                 
@@ -103,86 +125,14 @@ const scanner=(sdestino)=>{
               }
               if (err && !(err instanceof ZXing.NotFoundException)) {
                 console.error(err)
-                document.getElementById(sdestino).textContent = err
+                // document.getElementById(sdestino).textContent = "erro en metodo sanner" +err
               }
             })
             console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
-        //   })
-
-          document.getElementById('resetButton').addEventListener('click', () => {
-            codeReader.reset()
-            document.getElementById('result').textContent = '';
-            console.log('Reset.')
-          })
-
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-}
-    // })
+        //    })
+     }
 
 
-
-    const cambiaCamara=(sdestino, camara)=>{
-        let selectedDeviceId;
-    alert("camara numero 2");
-    
-      const codeReader = new ZXing.BrowserMultiFormatReader()
-      console.log('ZXing code reader initialized')
-      codeReader.listVideoInputDevices()
-        .then((videoInputDevices) => {
-          const sourceSelect = document.getElementById('sourceSelect')
-
-          $(sourceSelect).empty();
-          selectedDeviceId = [];
-
-          
-          selectedDeviceId = videoInputDevices[0].deviceId
-          if (videoInputDevices.length >= 1) {
-            videoInputDevices.forEach((element) => {
-              const sourceOption = document.createElement('option')
-              sourceOption.text = element.label
-              sourceOption.value = element.deviceId
-              sourceSelect.appendChild(sourceOption)
-              alert(element.label);
-            })
-
-            sourceSelect.onchange = () => {
-              selectedDeviceId = sourceSelect.value;
-              alert("SE CAMBIO DE CAMARA ", selectedDeviceId);
-              cambiaCamara(sdestino,selectedDeviceId);
-            };
-
-            const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-            sourceSelectPanel.style.display = 'block'
-          }
-
-        //   document.getElementById('startButton').addEventListener('click', () => {
-            codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
-              if (result) {
-                console.log(result)
-                document.getElementById(sdestino).textContent = result.text
-              }
-              if (err && !(err instanceof ZXing.NotFoundException)) {
-                console.error(err)
-                document.getElementById(sdestino).textContent = err
-              }
-            })
-            console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
-        //   })
-
-          document.getElementById('resetButton').addEventListener('click', () => {
-            codeReader.reset()
-            document.getElementById('result').textContent = '';
-            console.log('Reset.')
-          })
-
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-}
   </script>
 
 </body>
@@ -197,168 +147,3 @@ onKeyDown="if(this.value.length>1) return false;" onfocusout="if(this.value.leng
 
 
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-
-<!-- 
-
-var BarcodeIsRunning = false;
-var QrIsRunning = false;
-var leido = false;
-let scanner;
-var destinobarra;
-
-function QR(destino) {
-
-    StopLectura();
-    $('#lector').show();
-    $('#lector').text('Lector QR');
-    $('#btncancelar').show();
-    $('#modalCodigoBitacora').modal('show');
-
-    QrIsRunning = true;
-    $('#preview').show();
-    $('#preview').width(280);
-    //$('#preview').height(280);
-    scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
-
-    Instascan.Camera.getCameras().then(function (cameras) {
-        //ok(cameras.length)
-        if (cameras.length > 0) {
-            scanner.start(cameras[0]);
-        }
-        //else if (cameras.length == 1) {
-        //    scanner.start(cameras[0]);
-        //}
-        else {
-            msgerror('No hay camaras disponibles.');
-        }
-    }).catch(function (e) {
-        msgerror('No hay camaras disponibles.');
-    });
-
-
-
-    scanner.addListener('scan', function (content) {
-        var texto = $('#' + destino).val();
-        $('#' + destino).val(texto + ' ' + content);
-        scanner.stop();
-        QrIsRunning = false;
-        $('#preview').hide();
-        $('#modalCodigoBitacora').modal('hide');
-
-    });
-
-}
-
-function BARCODE(destinoB) {
-
-    StopLectura();
-    $('#lector').show();
-    $('#lector').text('Lector Barras');
-    $('#btncancelar').show();
-    $('#modalCodigoBitacora').modal('show');
-
-    destinobarra = destinoB;
-
-    Quagga.init({
-        inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: document.querySelector('#barcode'),
-            constraints: {
-                width: 280,
-                height: 280,
-                facing: "environment"
-            },
-            //constraints: {
-            //    deviceId: dev[0].deviceId
-            //},
-        },
-        decoder: {
-            readers: [
-                "code_128_reader",
-                "ean_reader",
-                "ean_8_reader",
-                "code_39_reader",
-                "code_39_vin_reader",
-                "codabar_reader",
-                "upc_reader",
-                "upc_e_reader",
-                "i2of5_reader"
-            ],
-            debug: {
-                showCanvas: false,
-                showPatches: false,
-                showFoundPatches: false,
-                showSkeleton: false,
-                showLabels: false,
-                showPatchLabels: false,
-                showRemainingPatchLabels: false,
-                boxFromPatches: {
-                    showTransformed: false,
-                    showTransformedBox: false,
-                    showBB: false
-                }
-            }
-        },
-
-    }, function (err) {
-        if (err) {
-            console.log(err);
-            BARCODE(destinoB);
-            return
-        }
-
-        //console.log("Initialization finished. Ready to start");
-        Quagga.start();
-        //document.getElementById("barcode").style.display = 'block';
-        $('#barcode').show();
-
-        // Set flag to is running
-        BarcodeIsRunning = true;
-    });
-
-    Quagga.onDetected(function (result) {
-
-        destinoB = destinobarra;
-
-        if (!leido) {
-            leido = true;
-            Confirmar('Lector', 'El codigo: ' + result.codeResult.code + ' es correcto?', function () {
-
-                var texto = $('#' + destinoB).val();
-                $('#' + destinoB).val(texto + ' ' + result.codeResult.code);
-                $('#barcode').hide();
-                Quagga.stop();
-                BarcodeIsRunning = false;
-                $('#lector').hide();
-                $('#btncancelar').hide();
-                leido = false;
-                destinoB = undefined;
-                $('#modalCodigoBitacora').modal('hide');
-            }, function () { leido = false; destinoB = undefined; });
-        }
-    });
-
-}
-
-function StopLectura() {
-    
-    $('#lector').hide();
-    $('#btncancelar').hide();
-    
-    if (BarcodeIsRunning) {
-        Quagga.stop();
-        BarcodeIsRunning = false;
-        $('#barcode').hide();
-        $('#modalCodigoBitacora').modal('hide');
-        //$('#barcode').empty();
-    }
-
-    if (QrIsRunning) {
-        scanner.stop();
-        QrIsRunning = false;
-        $('#preview').hide();
-        $('#modalCodigoBitacora').modal('hide');
-        //$('#preview').empty();
-    }
-} -->
