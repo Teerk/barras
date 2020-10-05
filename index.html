@@ -60,12 +60,13 @@
     // window.addEventListener('load', function () {
 const scanner=(sdestino)=>{
     let selectedDeviceId;
-    videoInputDevices = [];
+    
       const codeReader = new ZXing.BrowserMultiFormatReader()
       console.log('ZXing code reader initialized')
       codeReader.listVideoInputDevices()
         .then((videoInputDevices) => {
           const sourceSelect = document.getElementById('sourceSelect')
+          videoInputDevices = [];
           selectedDeviceId = videoInputDevices[0].deviceId
           if (videoInputDevices.length >= 1) {
             videoInputDevices.forEach((element) => {
