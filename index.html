@@ -145,6 +145,7 @@ const scanner=(sdestino)=>{
               sourceOption.text = element.label
               sourceOption.value = element.deviceId
               sourceSelect.appendChild(sourceOption)
+              alert(element.label);
             })
 
             sourceSelect.onchange = () => {
