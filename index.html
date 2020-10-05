@@ -25,12 +25,12 @@
       
 
       <div>
-        <a class="button" id="ZXZ" onclick="scanner(result)">ESCRIBIR EN 1</a>
+        <a class="button" id="ZXZ" onclick="scanner('result')">ESCRIBIR EN 1</a>
         <!-- <a class="button" id="startButton">Start</a> -->
         <a class="button" id="resetButton">Reset</a>
       </div>
       <div>
-        <a class="button" id="ZXZ" onclick="scanner(result2)">ESCRIBIR EN DOS</a>
+        <a class="button" id="ZXZ" onclick="scanner('result2')">ESCRIBIR EN DOS</a>
         <!-- <a class="button" id="startButton">Start</a> -->
         <!-- <a class="button" id="resetButton">Reset</a> -->
       </div>
@@ -60,6 +60,7 @@
     // window.addEventListener('load', function () {
 const scanner=(sdestino)=>{
     let selectedDeviceId;
+    videoInputDevices = [];
       const codeReader = new ZXing.BrowserMultiFormatReader()
       console.log('ZXing code reader initialized')
       codeReader.listVideoInputDevices()
