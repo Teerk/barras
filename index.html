@@ -79,6 +79,8 @@
               sourceOption.value = element.deviceId
               sourceSelect.appendChild(sourceOption)
             })
+
+            alert(videoInputDevices[0].deviceId);
             
             sourceSelectPanel.style.display = 'block'
           }
@@ -100,13 +102,13 @@
 
      sourceSelect.onchange = () => {
               selectedDeviceId = sourceSelect.value;
-              alert("SE CAMBIO DE CAMARA " + selectedDeviceId);
-             scanner(sdestino );
+              // alert("SE CAMBIO DE CAMARA " + selectedDeviceId);
+            //  scanner(sdestino );
             };
 
      function scanner(sdestino){
 
-       alert(selectedDeviceId);
+       alert(sdestino + " / "+selectedDeviceId);
 
        console.log(selectedDeviceId);
         // document.getElementById('startButton').addEventListener('click', () => {
@@ -116,7 +118,7 @@
               if (result) {
                 console.log(result)
                 document.getElementById(sdestino).textContent = result.text
-                alert(selectedDeviceId);
+                alert("LEIDO CON " +selectedDeviceId);
               }
               if (err && !(err instanceof ZXing.NotFoundException)) {
                 console.error(err)
