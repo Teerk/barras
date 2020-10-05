@@ -58,22 +58,18 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
   <script type="text/javascript">
 
-  var selectedDeviceId;
-  const codeReader = new ZXing.BrowserMultiFormatReader()
-  const sourceSelect = document.getElementById('sourceSelect')
+  let selectedDeviceId;
+  const codeReader = new ZXing.BrowserMultiFormatReader();
+  const sourceSelect = document.getElementById('sourceSelect');
+  const sourceSelectPanel = document.getElementById('sourceSelectPanel');
 
-  const sourceSelectPanel = document.getElementById('sourceSelectPanel')
 
-    window.addEventListener('load', function () {
-
-  
+    window.addEventListener('load', function () {  
       codeReader.listVideoInputDevices()
-        .then((videoInputDevices) => {
-          
+        .then((videoInputDevices) => {         
 
           $(sourceSelect).empty();
           selectedDeviceId = [];
-
           
           selectedDeviceId = videoInputDevices[0].deviceId
           if (videoInputDevices.length >= 1) {
@@ -130,7 +126,7 @@
             })
             console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
         //    })
-     }
+     };
 
 
   </script>
