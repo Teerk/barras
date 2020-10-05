@@ -94,9 +94,12 @@ const scanner=(sdestino)=>{
 
         //   document.getElementById('startButton').addEventListener('click', () => {
             codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
+
+                
               if (result) {
                 console.log(result)
                 document.getElementById(sdestino).textContent = result.text
+                alert(selectedDeviceId);
               }
               if (err && !(err instanceof ZXing.NotFoundException)) {
                 console.error(err)
@@ -122,33 +125,37 @@ const scanner=(sdestino)=>{
 
 
     const cambiaCamara=(sdestino, camara)=>{
-    let selectedDeviceId;
-
-    alert("CAMARA CAMBIO");
-    selectedDeviceId = camara;
+        let selectedDeviceId;
+    alert("camara numero 2");
     
       const codeReader = new ZXing.BrowserMultiFormatReader()
+      console.log('ZXing code reader initialized')
       codeReader.listVideoInputDevices()
         .then((videoInputDevices) => {
+          const sourceSelect = document.getElementById('sourceSelect')
+
+          $(sourceSelect).empty();
+          selectedDeviceId = [];
 
           
-        //   selectedDeviceId = videoInputDevices[0].deviceId
-        //   if (videoInputDevices.length >= 1) {
-        //     videoInputDevices.forEach((element) => {
-        //       const sourceOption = document.createElement('option')
-        //       sourceOption.text = element.label
-        //       sourceOption.value = element.deviceId
-        //       sourceSelect.appendChild(sourceOption)
-        //     })
+          selectedDeviceId = videoInputDevices[0].deviceId
+          if (videoInputDevices.length >= 1) {
+            videoInputDevices.forEach((element) => {
+              const sourceOption = document.createElement('option')
+              sourceOption.text = element.label
+              sourceOption.value = element.deviceId
+              sourceSelect.appendChild(sourceOption)
+            })
 
-        //     sourceSelect.onchange = () => {
-        //       selectedDeviceId = sourceSelect.value;
-        //       alert("SE CAMBIO DE CAMARA ", selectedDeviceId);
-        //     };
+            sourceSelect.onchange = () => {
+              selectedDeviceId = sourceSelect.value;
+              alert("SE CAMBIO DE CAMARA ", selectedDeviceId);
+              cambiaCamara(sdestino,selectedDeviceId);
+            };
 
-        //     const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-        //     sourceSelectPanel.style.display = 'block'
-        //   }
+            const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+            sourceSelectPanel.style.display = 'block'
+          }
 
         //   document.getElementById('startButton').addEventListener('click', () => {
             codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
