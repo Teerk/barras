@@ -109,11 +109,11 @@
 
      sourceSelect.onchange = () => {
 
-      codeReader.reset()
+            codeReader.reset()
             document.getElementById('result').textContent = '';
             document.getElementById('result2').textContent = '';
-            console.log('Reset.')
-            
+            alert('SE RESETEA')
+
               selectedDeviceId = sourceSelect.value;
                alert("CAMBIASTE DE CAMARA  " + selectedDeviceId);
             //  scanner(sdestino );
@@ -121,7 +121,7 @@
 
      function scanner(sdestino){
 
-       alert(sdestino + " / "+selectedDeviceId);
+       alert("LISTO PARA ESCANNER "+sdestino + " / "+selectedDeviceId);
 
        console.log(selectedDeviceId);
         // document.getElementById('startButton').addEventListener('click', () => {
