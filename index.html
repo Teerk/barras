@@ -108,6 +108,12 @@
      });
 
      sourceSelect.onchange = () => {
+
+      codeReader.reset()
+            document.getElementById('result').textContent = '';
+            document.getElementById('result2').textContent = '';
+            console.log('Reset.')
+            
               selectedDeviceId = sourceSelect.value;
                alert("CAMBIASTE DE CAMARA  " + selectedDeviceId);
             //  scanner(sdestino );
