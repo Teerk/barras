@@ -80,7 +80,8 @@
               sourceSelect.appendChild(sourceOption)
             })
 
-            alert("POR DAFAULT "+selectedDeviceId);
+            alert("POR DEFAULT "+selectedDeviceId);
+            console.log(selectedDeviceId);
             
             sourceSelectPanel.style.display = 'block'
           }
@@ -90,6 +91,7 @@
           document.getElementById('resetButton').addEventListener('click', () => {
             codeReader.reset()
             document.getElementById('result').textContent = '';
+            document.getElementById('result2').textContent = '';
             console.log('Reset.')
           })
 
@@ -98,9 +100,8 @@
           console.error("error" +err)
         })
 
-     });
 
-     sourceSelect.onchange = () => {
+        sourceSelect.onchange = () => {
               selectedDeviceId = sourceSelect.value;
                alert("CAMBIASTE DE CAMARA  " + selectedDeviceId);
             //  scanner(sdestino );
@@ -130,6 +131,12 @@
      };
 
 
+
+     });
+
+
+
+
   </script>
 
 </body>
@@ -137,9 +144,6 @@
 </html>
 
 
-<!-- 
-onKeyDown="if(this.value.length>1) return false;" onfocusout="if(this.value.length<=2) this.value=''"   onchange="controlMostrarOtro('text_8_107','text_35_107','OTRO')"
- -->
 
 
 
